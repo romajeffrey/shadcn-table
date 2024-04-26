@@ -17,7 +17,50 @@ export interface IndexPageProps {
 export default async function IndexPage({ searchParams }: IndexPageProps) {
   const search = searchParamsSchema.parse(searchParams)
 
-  const tasksPromise = getTasks(search)
+  // const tasksPromise = getTasks(search)
+  const tasksPromise: Promise<{
+    data: {
+      title: string | null
+      status: "todo" | "in-progress" | "done" | "canceled"
+      priority: "low" | "medium" | "high"
+      code: string | null
+      id: string
+      label: "bug" | "feature" | "enhancement" | "documentation"
+      createdAt: Date
+      updatedAt: Date | null
+    }[]
+    pageCount: number
+  }> = Promise.resolve({
+    data: [
+      {
+        title: "Task 1",
+        status: "todo",
+        priority: "low",
+        code: "T1",
+        id: "1",
+        label: "bug",
+        createdAt: new Date("2024-04-26T10:00:00"),
+        updatedAt: null,
+      },
+      {
+        title: "Task 2",
+        status: "in-progress",
+        priority: "medium",
+        code: "T2",
+        id: "2",
+        label: "feature",
+        createdAt: new Date("2024-04-25T12:00:00"),
+        updatedAt: new Date("2024-04-26T08:30:00"),
+      },
+      // Add more tasks as needed
+    ],
+    pageCount: 1, // Example pageCount
+  })
+
+  // Usage example:
+  tasksPromise.then((tasksData) => {
+    console.log(tasksData)
+  })
 
   return (
     <Shell className="gap-2">
